@@ -1,0 +1,62 @@
+#DISJOINT SET UNION BY RANK WITH PATH COMPRESSION  : 
+
+class DisjointSet {
+   private : 
+    vector<int> root ; 
+    vector<int> rank ;  
+   public  : 
+    DisjointSet(int n ) 
+    {
+        root.resize(n+1) ; 
+        rank.resize(n+1) ;   
+        for(int i  =0 ; i  < n ; i ++) 
+        {
+            root[i] = i ; 
+            rank[i] = 1 ;  
+        }
+    } 
+    int find(int x) 
+    {
+        if(root[x] == x)  return root[x] ;  
+        else return root[x] =  find(root[x]) ;  
+    }  
+    void unionSet(int x , int y) 
+    {
+        int rootX = find(x) ; 
+        int rootY = find(y) ;   
+        if(rootX != rootY) 
+        {
+            if(rank[x] > rank[y]) 
+            {
+                root[rootY] =  rootX  ;   
+            } 
+            else if (rank[x] < rank[y]) 
+            { 
+                root[rootX] = rootY ;  
+            }  
+            else  
+            {
+                root[rootY] = rootX ;  
+                rank[rootX]++ ;  
+            }
+        }
+    }
+    bool connected(int x , int y) 
+    {
+        return root[x] == root[y] ;  
+    }
+    int nofDistinct() 
+    {
+        int n  =  root.size() ;
+        int cnt  = 0 ;  
+        for(int i = 0 ; i < n ; i ++) 
+        {
+            if(root[i] == i) cnt++ ;   
+        }
+        return cnt  ;   
+    }
+};
+
+
+
+PRACTICE QUESTION :  https://leetcode.com/problems/number-of-provinces/submissions/1311541558/ 
